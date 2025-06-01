@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Usuario - Alerta Amber</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #alertBox {
+    display: none;
+    border: 2px solid red;
+    background: #fee;
+    padding: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+</style>
+</head>
+<body>
+  <h1>Alerta Amber</h1>
+  <p>Esta página permite detectar alertas mediante Bluetooth. Presiona el botón para buscar un dispositivo cercano.</p>
+  <button id="startScanBtn">Buscar Alertas Amber Cercanas</button>
+
+  <div id="alertBox"></div>
+
+  <script>
+    const alertBox = document.getElementById('alertBox');
+    const startScanBtn = document.getElementById('startScanBtn');
+
+    // Aquí defines el ID del beacon que quieres detectar (debe coincidir con el nombre del dispositivo Bluetooth)
+    const BEACON_ID_TARGET = 'ALERTA-AMBER-001';
+
+    async function startScan() {
+      alertBox.style.display = 'none';
+      startScanBtn.disabled = true;
+      startScanBtn.textContent = 'Buscando dispositivos...';
+
+      try {
+        const device = await navigator.bluetooth.requestDevice({
+          filters: [{ namePrefix: BEACON_ID_TARGET }],
+          optionalServices: [] // Puedes agregar UUIDs de servicios si quieres
+        });
+
+        if (device.name && device.name.includes(BEACON_ID_TARGET)) {
+          showAlert(`¡ALERTA AMBER DETECTADA! Caso: ${device.name}`);
+        } else {
+          showAlert('No se detectaron alertas cercanas.');
+        }
+
+      } catch (error) {
+        // Usuario canceló o error
+        showAlert('No se detectaron alertas o se canceló la búsqueda.');
+        console.error('Error o cancelación:', error);
+      }
+
+      startScanBtn.disabled = false;
+      startScanBtn.textContent = 'Buscar Alertas Amber Cercanas';
+    }
+
+    function showAlert(message) {
+      alertBox.textContent = message;
+      alertBox.style.display = 'block';
+    }
+
+    startScanBtn.addEventListener('click', startScan);
+  </script>
+</body>
+</html>
