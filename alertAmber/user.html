@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Usuario - Alerta Amber</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  #alertBox {
+    display: none;
+    border: 2px solid red;
+    background: #fee;
+    padding: 20px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.3em;
+  }
+</style>
+</head>
+<body>
+  <h1>Alerta Amber</h1>
+  <p>Esta página escuchará alertas cercanas automáticamente.</p>
+  <button id="startScanBtn">Iniciar Escucha de Alertas</button>
+
+  <div id="alertBox"></div>
+
+  <script>
+    const alertBox = document.getElementById('alertBox');
+    const startScanBtn = document.getElementById('startScanBtn');
+
+    // Aquí defines el ID del beacon que quieres detectar (debe coincidir con el de la autoridad)
+    const BEACON_ID_TARGET = 'ALERTA-AMBER-001';
+
+    async function startScan() {
+      try {
+        alertBox.style.display = 'none';
+        startScanBtn.disabled = true;
+        startScanBtn.textContent = 'Escuchando...';
+
+        const options = {
+          acceptAllAdvertisements: true
+        };
+
+        // Solicitar permiso para escanear anuncios BLE
+        const scan = await navigator.bluetooth.requestLEScan(options);
+
+        navigator.bluetooth.addEventListener('advertisementreceived', event => {
+          const adv = event;
+          // El beacon debe emitir un nombre o manufacturerData que contenga el BEACON_ID_TARGET
+          const deviceName = adv.device.name || '';
+          // O puedes buscar en manufacturerData si tienes datos binarios (depende del beacon)
+
+          if (deviceName.includes(BEACON_ID_TARGET)) {
+            showAlert(`¡ALERTA AMBER DETECTADA! Caso: ${deviceName}`);
+            scan.stop();
+            startScanBtn.disabled = false;
+            startScanBtn.textContent = 'Iniciar Escucha de Alertas';
+          }
+        });
+
+        // También puedes detener el escaneo después de cierto tiempo si quieres
+        setTimeout(() => {
+          scan.stop();
+          startScanBtn.disabled = false;
+          startScanBtn.textContent = 'Iniciar Escucha de Alertas';
+        }, 60000); // 1 minuto
+
+      } catch (error) {
+        alert('Error al iniciar el escaneo BLE: ' + error);
+        startScanBtn.disabled = false;
+        startScanBtn.textContent = 'Iniciar Escucha de Alertas';
+      }
+    }
+
+    function showAlert(message) {
+      alertBox.textContent = message;
+      alertBox.style.display = 'block';
+    }
+
+    startScanBtn.addEventListener('click', startScan);
+  </script>
+</body>
+</html>

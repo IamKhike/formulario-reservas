@@ -1,0 +1,107 @@
+/* RESET Y FUENTES */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: #f5f5f5; }
+
+h1, h2, h3 { color: #ffcc00; }
+
+.login-page, .dashboard-page { padding: 2rem; }
+
+/* LOGIN */
+.login-box {
+  max-width: 400px;
+  margin: auto;
+  background: #2a2a2a;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+}
+
+.login-box input, .login-box button {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.login-box input {
+  background: #333;
+  color: white;
+}
+
+.login-box button {
+  background: #ffcc00;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background: #e6b800;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+}
+
+/* HEADER */
+header {
+  background: #2e2e2e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 2px solid #ffcc00;
+}
+
+.header-logo {
+  width: 50px;
+}
+
+/* FORMULARIO DE ALERTA */
+.alert-form {
+  background: #2c2c2c;
+  padding: 2rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+}
+
+.alert-form input, .alert-form textarea, .alert-form button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.alert-form button {
+  background: #ffcc00;
+  font-weight: bold;
+}
+
+.alert-form button:hover {
+  background: #e6b800;
+}
+
+/* CASOS SUBIDOS */
+.cases-display {
+  padding: 1rem;
+}
+
+.case-card {
+  background: #252525;
+  padding: 1rem;
+  border-left: 5px solid #ffcc00;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(255,204,0,0.1);
+}
+
+.case-card img {
+  max-width: 100px;
+  float: right;
+  margin-left: 1rem;
+}
